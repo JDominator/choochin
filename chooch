@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ ! -d ".git" ]; then
+  echo -e "\nRun in git project's root directory"
+  exit
+fi
+
+if [[ ! -z "$(git status | grep "nothing to commit")" ]]; then
+  echo -e "\nNothing to commit"
+  exit
+fi
+
+commit_message="${@}"
+
+if [[ -z "${@}" ]]; then
+  echo -e "\nPlease provide a commit message"
+  read -p "Commit Message: " commit_message
+fi
+
+git add .
+git commit -m "${commit_message}"
+git push
+git status
